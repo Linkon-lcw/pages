@@ -7,6 +7,23 @@
 </head>
 <body>
     <h1>别看了</h1>
-    <p>只是things</p>
+    <p>页面将在 5 秒后自动跳转至 <a href="https://things.linkon-cw.top/">https://things.linkon-cw.top/</a>，若未跳转，请点击链接。</p>
+    <script>
+        setTimeout(function() {
+// 创建一个用于显示倒计时的元素
+const countdownElement = document.createElement('p');
+document.body.appendChild(countdownElement);
+
+let seconds = 5;
+const countdownInterval = setInterval(() => {
+    countdownElement.textContent = `页面将在 ${seconds} 秒后自动跳转至 https://things.linkon-cw.top/。`;
+    seconds--;
+    if (seconds < 0) {
+        clearInterval(countdownInterval);
+        window.location.href = 'https://things.linkon-cw.top/';
+    }
+}, 1000);
+        }, 5000);
+    </script>
 </body>
 </html>
