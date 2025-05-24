@@ -1,0 +1,106 @@
+<h1>侧边栏</h1>
+
+<div class="collapsible-container">
+    <button type="button" class="collapsible-btn">网络测试页面 <span class="arrow">></span></button>
+    <div class="collapsible-content">
+        <a href="./../test-connection.html" class="item">连接测试</a>
+        <a href="./../fake-referer.html" class="item">Referer伪造测试工具</a>
+    </div>
+</div>
+
+<style>
+    .collapsible-container {
+        margin-top: 10px;
+    }
+    .collapsible-btn {
+        transition: all 0.3s ease;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: white;
+        cursor: pointer;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    .collapsible-btn:hover {
+        background-color: #f5f5f5;
+    }
+    .arrow {
+        transition: all 0.3s ease;
+
+        transition: transform 0.3s ease;
+        font-size: 1.2em;
+        transform-origin: center;
+        transform: rotate(90deg);
+    }
+    .collapsible-btn.active .arrow {
+        transform: rotate(270deg);
+    }
+    .collapsible-btn:active,
+    .collapsible-btn.active {
+        background-color: #f5f5f5;
+    }
+    .collapsible-content {
+        
+        margin-left: 5%;
+        height: 0;
+        overflow: hidden;
+        padding: 0;
+        border: none;
+        transition: all 0.3s ease;
+        border: 1px solid #ddd;
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        overflow: hidden;
+        width: 92%;
+        
+    }
+    .collapsible-content .item {
+        display: block;
+        padding: 5px 0;
+        color: #333;
+        text-decoration: none;
+    }
+    .collapsible-content .item:hover {
+        color: #007bff;
+    }
+</style>
+<script>
+    const collapsibleBtn = document.querySelector('.collapsible-btn');
+    const collapsibleContent = document.querySelector('.collapsible-content');
+
+    collapsibleBtn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        if (this.classList.contains('active')) {
+            collapsibleContent.style.marginLeft = '2%';
+            collapsibleContent.style.paddingLeft = '2%';
+            collapsibleContent.style.marginRight = '2%';
+            collapsibleContent.style.paddingRight = '2%';
+            collapsibleContent.style.height = collapsibleContent.scrollHeight + 'px';
+        } else {
+            collapsibleContent.style.marginLeft = '3%';
+            collapsibleContent.style.paddingLeft = '1%';
+            collapsibleContent.style.marginRight = '3%';
+            collapsibleContent.style.paddingRight = '1%';
+            collapsibleContent.style.height = '0';
+        }
+    });
+
+    // 处理链接点击导航
+    document.querySelectorAll('.collapsible-content .item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            if (href) {
+                window.location.href = href;
+            }
+        });
+    });
+</script>
+<link rel="stylesheet" href="./../css/fonts.css">

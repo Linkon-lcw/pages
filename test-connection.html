@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试连接</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .loading {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>测试连接</h1>
+        <input type="text" id="urlInput" placeholder="请输入要测试的URL"
+            style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+        <button id="testButton">点击测试连接</button>
+        <iframe src="./obj/change-test.html"></iframe>
+
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+    <script>
+        document.getElementById('testButton').addEventListener('click', async function () {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = '正在测试连接...';
+            resultDiv.className = 'result loading';
+            resultDiv.style.display = 'block';
+            const targetUrl = prompt('请输入要测试的URL:');
+            if (!targetUrl) {
+                resultDiv.textContent = '未输入URL，请重试。';
+                resultDiv.className = 'result error';
+                return;
+            }
+            let fullUrl = targetUrl;
+            if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
+                fullUrl = 'http://' + fullUrl;
+            }
+            try {
+                const response = await fetch(fullUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+                    },
+                    mode: 'cors',
+                    credentials: 'omit',
+                    redirect: 'follow'
+                });
+                if (response.ok) {
+                    resultDiv.textContent = `连接成功！状态码: ${response.status}`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.textContent = `连接失败！状态码: ${response.status} ${response.statusText}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.textContent = `连接失败！错误信息: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        });
+    </script>
+</body>
+
+</html>
